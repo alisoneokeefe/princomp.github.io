@@ -54,7 +54,7 @@ tags:
 - Each built-in numeric type has its own `Parse` method
     - `int.Parse("42")` returns the value 42
     - `long.Parse("42")` returns the value `42L`
-    - `double.Parse("3.65")` returns the value 3.65
+    - `double.Parse("3.65")` returns the value `3.65`
     - `float.Parse("3.65")` returns the value `3.65f`
     - `decimal.Parse("3.65")` returns the value `3.65m`
 - The Parse methods are useful for converting user input to useable data. For example, this is how to get the user's age as an `int`:
@@ -113,11 +113,13 @@ tags:
 - If the string does not contain a number at all -- e.g. `int badIdea = int.Parse("Hello");` -- the program will fail with the error `System.FormatException`
 - If the string contains a number with a decimal point, but the `Parse` method is for an integer datatype, the program will also fail with `System.FormatException`. For example, `int fromFraction = int.Parse("52.5");` will cause this error. This will happen even if the number in the string ends in ".0" (meaning it has no fractional part), such as `int wholeNumber = int.Parse("45.0");`.
 - If the string has extraneous text before or after the number, such as `"$18.95"` or `1999!`, the program will fail with the error `System.FormatException`
+  
 - If the string contains a number that cannot fit in the desired datatype (due to overflow or underflow), the behavior depends on the datatype:
     - For the integer types (`int` and `long`), the program will fail with the error `System.OverflowException`. For example, `int.Parse("3000000000")` will cause this error because 3000000000 is larger than $2^{31}-1$ (the maximum value an `int` can store).
     - For the floating-point types (`float` and `double`), no error will be produced. Instead, the result will be the same as if an overflow or underflow had occurred during normal program execution: an overflow will produce the value `Infinity`, and an underflow will produce the value `0`. For example, `float tooSmall = float.Parse("1.5e-55");` will assign `tooSmall` the value 0, while `double tooBig = double.Parse("1.8e310");` will assign `tooBig` the value `double.Infinity`.
+
 - Acceptable string formats vary slightly between the numeric types, due to the different ranges of values they can contain
-    - `int.Parse` and `long.Parse` will accept strings in the format `([ws])([sign])[digits]([ws])`, where `[ws]` represents empty spaces and groups in parentheses are **optional**. This means that a string with leading or trailing spaces will not cause an error, unlike a string with other extraneous text around the number.
+    - `int.Parse` and `long.Parse` will accept strings in the format `([ws])([sign])[digits]([ws])`. (Note that groups in parentheses are **optional**, and `[ws]` represents empty spaces.) This means that a string with leading or trailing spaces will not cause an error, unlike a string with other extraneous text around the number.
     - `decimal.Parse` will accept strings in the format `([ws])([sign])([digits],)[digits](.[digits])([ws])`. Note that you can optionally include commas between groups of digits, and the decimal point is also optional. This means a string like `"18,999"` is valid for `decimal.Parse` but not for `int.Parse`.
     - `float.Parse` and `double.Parse` will accept strings in the format `([ws])([sign])([digits],)[digits](.[digits])(e[sign][digits])([ws])`. As with `decimal`, you can include commas between groups of digits. In addition, you can write the string in scientific notation with the letter "e" or "E" followed by an exponent, such as `"-9.44e15"`.
 
@@ -234,7 +236,7 @@ tags:
     Console.WriteLine("num is " + num);
     ```
 
-- It's usually easier to use interpolation, since when you have many variables the `+` signs start to add up. Compare the length of these two equivalent lines of code:
+- It's usually easier to use interpolation because, when you have many variables, the `+` signs start to add up. Compare the length of these two equivalent lines of code:
 
     ```
     Console.WriteLine($"The variables are {a}, {b}, {c}, {d}, and {e}");
