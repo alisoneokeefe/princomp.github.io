@@ -64,7 +64,7 @@ Features of this program:
     - In C#, code is organized into **namespaces**, which group related classes together
     - If you want to use code from a different namespace, you need a `using` statement to "import" that namespace
     - All the standard library code is in different namespaces from the code you will be writing, so you'll need `using` statements to access it
-- A class declaration^[We use the notation `[…]` to denote what "should" be there, but this is just a place holder: you are not supposed to _actually_ have the braces in the code.]
+- A class declaration^[We use the notation `[…]` to denote what "should" be there, but this is just a place holder: you are not supposed to _actually_ have the brackets in the code.]
     - Syntax:
     ```
      class [name of class]
@@ -104,11 +104,11 @@ Features of this program:
 - Braces and parentheses must always be matched
     - Once you start a class or method definition with `{`, you must end it with `}`
 - Blank space has _almost_ no meaning
-    - Blank spaces refer to spaces (sometimes denoted " ", "␣" or "⌴"), [tabs](https://www.wikiwand.com/en/Tab_key#Tab_characters) (which consists in 4 spaces), and new lines (sometimes denoted "↵", "↩", "←" or "⏎")
+    - Blank spaces refer to spaces (sometimes denoted " ", "␣" or "⌴"), [tabs](https://www.wikiwand.com/en/Tab_key#Tab_characters) (which consist of 4 spaces), and new lines (sometimes denoted "↵", "↩", "←" or "⏎")
     - There must be at least 1 space between words
     - Other than that, spaces and new lines are just to help humans read the code 
     - Spaces are counted exactly if they are inside string data, e.g. `"Hello      world!"` is different from `"Hello world!"`
-    - Otherwise, entire program could be written on one line^[Well, if there are no in-line comments in it. Can you figure out why?]; it would have the same meaning
+    - Otherwise, the entire program could be written on one line^[Well, if there are no in-line comments in it. Can you figure out why?]; it would have the same meaning
 - All C# applications must have a `Main` method
     - Name must match exactly, otherwise .NET run-time will get confused
     - This is the first code to execute when the application starts -- any other code (in methods) will only execute when its method is called
@@ -135,7 +135,7 @@ Note that some of those conventions are actually rules in different programming 
 - Reserved words: Keywords in the C# language
     - Note they have a distinct color in the code sample and in your IDE
     - Built-in commands/features of the language
-    - Can only be used for one specific purpose; meaning cannot be changed
+    - Can only be used for one specific purpose; meaning cannot be changed--in other words, you wouldn't be able to declare, say, a variable sharing the same name and capitalization as a reserved word.
     - Examples:
         - `using`
         - `class`
