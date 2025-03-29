@@ -61,41 +61,55 @@ Follow the instructions in our ["Contributing Guidelines"](contributing.html#if-
 For a quick syntax guide in Markdown, the best resource is [this website](https://commonmark.org/help/) and its [10 minutes tutorial](https://commonmark.org/help/tutorial/).
 We list some [best practices](./docs/about/dev_guide#editing-resources), and would appreciate if you could follow them.
 
-For github's interface, please refer to the following guide (where the screenshots where taken for the [csci-1301.github.io](https://github.com/csci-1301/csci-1301.github.io) website, but remains relevant).
+For github's interface, please refer to the following guide.
 
-!["Navigating repositories"](img/uca_guide1.jpg) 
+!["Navigating repositories"](img/uca1.png) 
 
-GitHub is separated into many "repositories":
+The [ℙrinciples of ℂomputer ℙrogramming organization repository page on GitHub](https://github.com/orgs/princomp/repositories) contains many "repositories":
 
-- The **princomp.github.io** contains most of the resources that will be used (so it will be where you will navigate to the most),
-- The **uca-resources-<semester>-YYYY** is a _private_ repository where material useful to UCAs but not accessible to students (such as project solution, listings, etc.) will be shared, 
-- The **feedback-<semester>-YYYY** and similarly named repositories contains feedback submitted by students/users. 
+- The [**princomp.github.io**](https://github.com/princomp/princomp.github.io) contains most of the resources that will be used (so it will be where you will navigate to the most),
+- The **feedback-`<semester>`-YYYY** and similarly named repositories contain feedback submitted by students/users.
 
-!["Navigating folders"](img/uca_guide2.jpg) 
+[Under the **Code** section](https://github.com/princomp/princomp.github.io/tree/main/) (next to Issues, Pull Requests, Actions, etc.), you will find various folders containing documents for the website.
 
-Under the **Code** section (next to Issues, Pull Requests, Actions, etc.), you will find various folders containing documents for the website. Typically, if there is some error or mistake in the lecture notes, so that will be where you will navigate to the most. 
+!["Navigating folders"](img/uca1a.png)
+
+
+Typically, if there is some error or mistake, it will be under [`source/lectures`](https://github.com/princomp/princomp.github.io/tree/main/source/lectures), in the lecture notes, so that will be where you will navigate to the most:
+
+![Lecture Notes](img/uca2.png)
+
 The way the resources are organized [is explained here](./docs/about/dev_guide#resources-organization-overview).
 
-!["Navigating documents"](img/uca_guide3.jpg)
+!["Navigating documents"](img/uca3a.png)
+![1d](img/uca3b.png)
 
-For this example, I just clicked on the first chapter, "General Concepts".
+For this example, I just clicked on the "Collections," then "1d".
 
-!["Editing Mode"](img/uca_guide4.jpg) 
+!["Editing Mode"](img/uca4.png) 
 
 On this page, you can see the edit history of that specific document you clicked on. In the corner above the document and below the edit history, there is a pencil icon that will put you into editing mode for that document.
 
-!["Editing vs Previewing"](img/uca_guide_getting_help.png) 
+When you click on the pencil icon, you will see the document formatted as markdown with two sections at the top of the document: *Edit file* and *Preview*. If you have *Edit file* selected, then you will see the "code" version of the document whereas if you click on the *Preview* button, you will see the document in its "final" form, or how the website users should see it, without the "code". To edit, make sure you have *Edit file* selected. 
 
-On this page, you will see the document formatted as markdown with two sections at the top of the document: *Edit file* and *Preview*. If you have *Edit file* selected, then you will see the "code" version of the document whereas if you click on the *Preview* button, you will see the document in its "final" form, or how the website users should see it, without the "code". To edit, make sure you have *Edit file* selected. 
+!["Committing Changes"](img/uca5gh2.png) 
 
+Once you have made the edits you wanted, you need to "commit" them; just like how you may write a paper, you need to submit it to the professor for them to see it. At the top right corner of the page, there is a button that says "Commit changes." Then, a description box pops up for you to describe what you did so others will know the changes you made. (You do not need to go into *every* detail; just describe it generally, like "I fixed grammatical issues" or "Fixed code error.")
 
-!["Proposing Changes"](img/uca_guide_getting_help_2.png) 
-
-Once you have made the edits you wanted, you need to "commit" them; just like how you may write a paper, you need to submit it to the professor for them to see it. At the bottom of the page, there is a header box and a description box for you to describe what you did so others will know the changes you did (you do not need to go into *every* detail; just describe it generally, like "I fixed grammatical issues" or "Fixed code error"). As a UCA, you do not have write access to the **princomp.github.io** repository, so submitting a change will write it to a new branch in your fork `<your name>`/princomp.github.io, so you can send a pull request. Given the new protocol by Github, after making the neccessary edits, click the "Propose Changes" button located at the bottom. On this page and the next, there will be a "Create pull request" button, by clicking on this you will start a pull request. After you have successfully created a new branch for your commit and started a pull request, your edits will be checked by others so as to catch any mistake(s) you may have introduced before your pull request is merged into the base branch. 
+!["Proposing Changes"](img/uca5gh2a.png)
+As a UCA, you do not have write access to the **princomp.github.io** repository, so submitting a change will write it to a new branch in your fork `<your github handle>/princomp.github.io`, so you can send a pull request. Given how Github works, after making the necessary edits, click the "Propose Changes" button located at the bottom. On this page and the next, there will be a "Create pull request" button. Clicking on this will start a pull request. After you have successfully created a new branch for your commit and started a pull request, your edits will be checked by others so as to catch any mistake(s) you may have introduced before your pull request is merged into the base branch.
 
 !["Committing"](img/uca_guide6.jpg)
 
- Note that if you are making edits inside the repository for UCAs, `uca-resources-<semester>-YYYY`, you do have write access so there will instead be two buttons:
+### Uploading Images
+
+Like the paragraph above states, UCAs don't have write access to the **princomp.github.io** repository, which also means they are not able to add files to the `img` folder. If you find that you need to add image files, you still can, but you must upload them to your fork first. To access your fork, type `github.com/<your github handle>/princomp.github.io` in the address bar. The page that appears will look nearly the same as the one located at `github.com/princomp/princomp.github.io`. The folders and files will be organized the same way as well. Navigating to `source/img` will bring you to the correct folder. In the top right corner, directly above the edit history, there will be a button that says "Add file." If you click this, two options appear: "Create new file" and "Upload files."
+
+If you click "Upload files," you will be brought to a page where you'll be able to drag files onto it or choose your files manually. When you've uploaded the files, select the radio button next to "Create a new branch for this commit and start a pull request." Then, select "Commit changes" at the bottom of the page. You'll then be prompted to submit a pull request. After this, you should be brought back to the main page of your fork. A yellow box will be at the top of the screen that says "`branch name` had recent pushes x minutes ago." On the right of that box, there will be a button that says "Compare & pull request." From here, you can submit a pull request as you would for any other commit!
+
+
+<!--
+Note that if you are making edits inside the repository for UCAs, `uca-resources-<semester>-YYYY`, you do have write access so there will instead be two buttons:
  **Commit directly to `main` branch** and **Create a new branch for this commit and start a pull request**
  
 - **Commit directly to `main` branch** submits your edits directly into the document.
@@ -103,3 +117,4 @@ Once you have made the edits you wanted, you need to "commit" them; just like ho
 - **Create a new branch for this commit and start a pull request** creates a "pull request" (which can be found [in the *Pull Requests* tab at the top of the page](https://github.com/princomp/princomp.github.io/pulls)) which essentially notifies others "you edited this document and you want them to check it". Others can check the changes you make, improve them, change them, and can submit them for you. 
 
 You can **Create a new branch for this commit and start a pull request** so others can double check your edits: it can act as a safety net, so your colleagues will be able to catch any mistake(s) you may have introduced!
+-->

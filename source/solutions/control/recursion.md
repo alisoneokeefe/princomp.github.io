@@ -166,7 +166,8 @@ tags:
     !include`snippetStart="// Count-down using while loop",snippetEnd="// Count-down using recursion"` code/projects/RecursionAndLoops/RecursionAndLoops/Program.cs
     ```
     
-    <details><summary>Solution</summary>```{download="./code/projects/HelloWorldFile.zip"}
+    <details><summary>Solution</summary>
+    ```{download="./code/projects/HelloWorldFile.zip"}
     !include`snippetStart="// Count-down using recursion",snippetEnd=" // End count-down using recursion"` code/projects/RecursionAndLoops/RecursionAndLoops/Program.cs
     ```
     </details>
@@ -177,10 +178,36 @@ tags:
     !include`snippetStart="// Sum using do while",snippetEnd="// Sum using recursion"` code/projects/RecursionAndLoops/RecursionAndLoops/Program.cs
     ```
     
-    <details><summary>Solution</summary>```{download="./code/projects/HelloWorldFile.zip"}
+    <details><summary>Solution</summary>
+    ```{download="./code/projects/HelloWorldFile.zip"}
     !include`snippetStart="// Sum using recursion",snippetEnd="// End sum using recursion"` code/projects/RecursionAndLoops/RecursionAndLoops/Program.cs
     ```
     </details>
+
+#. Rewrite the following `do` loop as a recursive method.
+
+    ```
+    int n;
+    do
+    {
+        Console.WriteLine("Enter an integer, 0 to exit.");
+        n = int.Parse(Console.ReadLine());
+    } while (n != 0);
+    Console.WriteLine("Bye!");
+    ```
+    
+    <details><summary>Solution</summary>
+    ```
+    static void EnterInteger()
+    {
+        Console.WriteLine("Enter an integer, 0 to exit.");
+        int n = int.Parse(Console.ReadLine());
+        if(n != 0) { EnterInteger(); }
+        else{Console.WriteLine("Bye!");}
+    }
+    ```
+    </details>
+    
 
 #. Rewrite the following `for` loop as a recursive method.
 
@@ -188,7 +215,8 @@ tags:
     !include`snippetStart="// Display odd values using for loop",snippetEnd="// End display odd values using recursion"` code/projects/RecursionAndLoops/RecursionAndLoops/Program.cs
     ```
     
-    <details><summary>Solution</summary>```{download="./code/projects/HelloWorldFile.zip"}
+    <details><summary>Solution</summary>
+    ```{download="./code/projects/HelloWorldFile.zip"}
     !include`snippetStart="// Display odd values using recursion",snippetEnd="OddInArray(test, 0);"` code/projects/RecursionAndLoops/RecursionAndLoops/Program.cs
     ```
     </details>

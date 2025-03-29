@@ -11,7 +11,7 @@ Consider the following situation:
 
 - We want to implement a class for students, and one for employees.
 - We realize that those class overlap heavily: they both need properties for an id, a name, an emergency phone number, an address, etc., identical methods to e.g., implement an automated alert system, etc.
-- However, they do not overlap perfectly: for example, students will have a major but employees won't, and employee will have an hourly wage but students won't. Also, some checks will be different: while both students and employees will have an id, the former will always start with the letter 'S', and the latter with the letter 'E'.
+- However, they do not overlap perfectly: for example, students will have a major but employees won't, and employee will have an hourly wage but students won't. Also, some checks will be different: while both students and employees will have an id, the former will always have to start with the letter 'S', but the latter won't have any requirement.
 - So we really do need two different classes, but would like for them both to inherit a "Person" class that implements all the overlapping properties, attributes and methods.
 - **But** we **do not** want persons "objects" to be created: a "person" in isolation does not make sense in our model, we only want to implement students or employees, not "persons".
 
@@ -25,7 +25,7 @@ Consider a (shortened) version of the example above. We start by implementing an
 !include code/projects/AbstractClass/AbstractClass/Person.cs
 ```
 
-Note that the `Id` property is *also* marked as `abstract`: this means that the derived class will have to re-implement this property's setter.
+Note that the `Id` property is *also* marked as `abstract`: this means that the derived class will have to re-implement this property's setter and getter.
 Then, we can implement the `Student` and `Employee` classes by inheriting from the `Person` class:
 
 ```
@@ -36,6 +36,7 @@ Then, we can implement the `Student` and `Employee` classes by inheriting from t
 !include code/projects/AbstractClass/AbstractClass/Employee.cs
 ```
 
+Note that the `Employee` does not need to add an attribute for `Id` since it is using automatic properties, but that `Student` does.
 
 Using this code, the statement
 
@@ -64,13 +65,15 @@ The statement `Morgan.Id = "E8194";` will raise exception, but `Morgan.Id = "S81
         ```
         public abstract string GenerateLogin();
         ```
-        to "force" any derived class to implement a `GenerateLogin` method that does not take any parameter and returns a `string`. The derived classes would need to implement a method that overrides the `Person`'s `GenerateLogin` method:
+        to "force" any derived class to implement a `GenerateLogin` method that does not take any parameter and returns a `string`. The derived classes would need to implement a method that overrides the `Person`'s `GenerateLogin` method^[Which should have the same signature *and* return type.]:
 
         ```
         public override string GenerateLogin(){
             // Insert method body.
         }
         ```
+
+        Note that an `abstract` method is implicitly a `virtual` method, as it *must* be overridden. Hence, no need to specify the `virtual` modifier.
 
 - However, abstract attributes are not allowed.
 

@@ -10,12 +10,48 @@ tags:
 
 #. What is the difference between `ref` and `out`?
 
-  - [ ] `ref` variables are "read-only", their value cannot change inside a method.
-  - [ ] `ref` is a keyword, `out` is not.
-  - [ ] There isn't any: they are both used to pass a reference to a method.
-  - [x] `out` variables may not be initialized going into the method, but have to receive a value inside the method.
-  - [ ] There isn't any: they are both used to pass a value to a method.
+    - [ ] `ref` variables are "read-only", their value cannot change inside a method.
+    - [ ] `ref` is a keyword, `out` is not.
+    - [ ] There isn't any: they are both used to pass a reference to a method.
+    - [x] `out` variables may not be initialized going into the method, but have to receive a value inside the method.
+    - [ ] There isn't any: they are both used to pass a value to a method.
 
+#. What would be displayed by the following?
+
+    ```
+    static void Main(){
+        int x = 4, y = 3;
+        Console.WriteLine($"x is {x}, y is {y}.");
+        AddR(ref x, ref y);
+        Console.WriteLine($"x is {x}, y is {y}.");
+    }
+    static void AddR(ref int a, ref int b){
+        int tmp = a;
+        a = a + b;
+        b = tmp - b;
+    }
+    ```
+    
+    - [ ] "x is {x}, y is {y}.", "x is {x}, y is {y}."
+    - [ ] "x is 4, y is 3.", "x is 3, y is 4."
+    - [ ] "x is 4, y is 3.", "x is 4, y is 3."
+    - [x] "x is 4, y is 3.", "x is 7, y is 1."
+    - [ ] This code would not compile.
+  
+#. The following method would *not* compile. Why?
+
+    ```
+    public static void Test(int a, out int b){
+        if (a > 0) { b = 12; }
+    }
+    ```
+    
+    - [ ] A method cannot be `static` and have `void` as a return type.
+    - [x] Any `out` parameter must have its value set in the body of the method.
+    - [ ] The `else` is missing.
+    - [ ] The keyword `out` cannot be used in the header of a method.
+    - [ ] An `out` parameter cannot be assigned a value.
+  
 ## Warm-up Exercises
 
 #. Consider the following code:
@@ -33,15 +69,15 @@ tags:
     #. What is the value of `c`?
     #. What is the value of `d`?
 
-<details><summary>Solution</summary>
-Before the `Foo` method is executed: 1, 2, and `z` is not set.
+    <details><summary>Solution</summary>
+    Before the `Foo` method is executed: 1, 2, and `z` is not set.
 
-Inside the `Foo` method: 2, 1 and 3.
+    Inside the `Foo` method: 2, 1 and 3.
 
-After the `Foo` method: 1, 0, and 2
+    After the `Foo` method: 1, 0, and 2
 
-`c` holds `'*'`, `d` holds `%`.
-</details>
+    `c` holds `'*'`, `d` holds `%`.
+    </details>
 
 
 ## Problems
@@ -58,8 +94,9 @@ After the `Foo` method: 1, 0, and 2
     x0 is 7, y0 is 1.
     ```
     
-    <details><summary>Solution</summary>```
-    !include`snippetStart="// Solution for AddRev",snippetEnd="// Example for AddLog"` code/projects/ReferenceMethods/ReferenceMethods/Program.cs
+    <details><summary>Solution</summary>
+    ```
+    !include code/projects/ReferenceMethods/ReferenceMethods/Program.cs
     ```
     </details>
         
@@ -76,7 +113,8 @@ After the `Foo` method: 1, 0, and 2
     7
     ```
     
-    <details><summary>Solution</summary>```
+    <details><summary>Solution</summary>
+    ```
     !include`snippetStart="// Solution for AddLog",snippetEnd="// Example for AddReset"` code/projects/ReferenceMethods/ReferenceMethods/Program.cs
     ```
     </details>
@@ -93,7 +131,8 @@ After the `Foo` method: 1, 0, and 2
     x2 = 0, y2 = 0, z2 = 5.
     ```
     
-    <details><summary>Solution</summary>```
+    <details><summary>Solution</summary>
+    ```
     !include`snippetStart="// Solution for AddReset",snippetEnd="// Done!"` code/projects/ReferenceMethods/ReferenceMethods/Program.cs
     ```
     </details>

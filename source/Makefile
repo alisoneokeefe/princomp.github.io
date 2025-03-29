@@ -115,9 +115,15 @@ FIL_TEMPLATES = $(TEMPLATES)filters/
 # UML class diagrams (source and target).
 SOURCE_CLA_TXT_FILES := $(shell find $(CLA_DIR) -mindepth 1  -maxdepth 1 -iname "*.txt")
 SOURCE_CLA_MD_FILES := $(addsuffix .md,  $(basename $(SOURCE_CLA_TXT_FILES)))
+SOURCE_CLA_SVG_FILES := $(addsuffix .svg,  $(basename $(SOURCE_CLA_TXT_FILES)))
+SOURCE_CLA_PNG_FILES := $(addsuffix .png,  $(basename $(SOURCE_CLA_TXT_FILES)))
 TARGET_CLA_TXT_FILES := $(addprefix $(BUILD_DIR), $(SOURCE_CLA_TXT_FILES))
+TARGET_CLA_PNG_FILES := $(addprefix $(BUILD_DIR), $(SOURCE_CLA_PNG_FILES))
+TARGET_CLA_SVG_FILES := $(addprefix $(BUILD_DIR), $(SOURCE_CLA_SVG_FILES))
 TARGET_CLA_MD_FILES :=  $(addprefix $(BUILD_DIR), $(SOURCE_CLA_MD_FILES))
 TARGET_CLA += $(TARGET_CLA_TXT_FILES)
+TARGET_CLA += $(TARGET_CLA_SVG_FILES)
+TARGET_CLA += $(TARGET_CLA_PNG_FILES)
 TARGET_CLA += $(TARGET_CLA_MD_FILES)
 
 # Exercises files (with and without solution)
@@ -202,9 +208,13 @@ PANDOC_OPTIONS = --lua-filter $(FIL_TEMPLATES)add-links-to-projects.lua\
 
 ## MD build options
 PANDOC_MD = $(PANDOC_OPTIONS) --standalone --lua-filter $(FIL_TEMPLATES)default-code-class-block.lua \
---shift-heading-level-by=-1 --to commonmark_x+pipe_tables+emoji \
---default-image-extension=svg
+--shift-heading-level-by=-1 --to commonmark_x+pipe_tables+emoji
+
 # -s/--standalone is required to save the metadata block.
+
+# Actually only work for md and pdf:
+# --default-image-extension=svg
+# https://pandoc.org/MANUAL.html#reader-options
 
 ## Alternative formats options.
 
@@ -215,13 +225,13 @@ PANDOC_OPTIONS_ALT = $(PANDOC_OPTIONS) --lua-filter $(FIL_TEMPLATES)default-code
 PANDOC_HTM = $(PANDOC_OPTIONS_ALT) --toc --default-image-extension=svg --standalone --template=$(HTM_TEMPLATES)template.html --metadata title="ℙrinciples of ℂomputer ℙrogramming"
 
 # PDF build options
-PANDOC_PDF:= $(PANDOC_OPTIONS_ALT) --toc -V links-as-notes --default-image-extension=pdf --pdf-engine=xelatex --include-in-header=$(PDF_TEMPLATES)header.tex
+PANDOC_PDF:= $(PANDOC_OPTIONS_ALT) --toc --default-image-extension=svg --pdf-engine=xelatex --include-in-header=$(PDF_TEMPLATES)header.tex
 
 # ODT build options
-PANDOC_ODT:= $(PANDOC_OPTIONS_ALT) --default-image-extension=svg --reference-doc=$(ODT_TEMPLATES)custom-reference.odt
+PANDOC_ODT:= $(PANDOC_OPTIONS_ALT) --default-image-extension=png --reference-doc=$(ODT_TEMPLATES)custom-reference.odt
 
 # DOCX build options
-PANDOC_DOC:= $(PANDOC_OPTIONS_ALT) --default-image-extension=svg
+PANDOC_DOC:= $(PANDOC_OPTIONS_ALT) 
 # --reference-doc=$(DOCX_TEMPLATES)custom-reference.docx
 
 # Book build options
@@ -288,17 +298,15 @@ $(IMG_DIR)%.svg:$(IMG_DIR)%.pdf
 # -------------------------------
 
 .PHONY: PREREQ
-PREREQ: CLA EXE $(TARGET_IMAGES_FILES)
+PREREQ: $(TARGET_CLA) $(TARGET_EXO) $(TARGET_IMAGES_FILES)
 
 .PHONY: CLEAN-PREREQ
 CLEAN-PREREQ:
-	rm -f $(CLA_DIR)*.md && rm -rf $(EXO_DIR) && rm -rf $(TARGET_IMAGES_FILES)
+	rm -i -f $(CLA_DIR)*.md $(CLA_DIR)*.png $(CLA_DIR)*.svg && rm -rf $(EXO_DIR) && rm -rf $(TARGET_IMAGES_FILES)
 
-# UML class diagram file
-.PHONY: CLA
-CLA: $(SOURCE_CLA_MD_FILES)
 
-$(CLA_DIR)%.md: $(CLA_DIR)%.txt
+# PREVIOUS RULE
+# $(CLA_DIR)%.md: $(CLA_DIR)%.txt | $(CLA_DIR)%.svg 
 # After echoing a message, we
 # 1. Set the caption to be "A UML diagram for the"
 # followed by the name of the (first) class in the .txt file
@@ -316,18 +324,34 @@ $(CLA_DIR)%.md: $(CLA_DIR)%.txt
 # 5. We add the content of the $< file to become the new alt. text for the image.
 # 6. We remove all the new lines introduced by the previous operations,
 # Using tr (which doesn't support in-file edit, so we use a temp file).
+#	@echo "Creating $@"
+#	@export MERMAID_FILTER_CAPTION="A UML diagram for the $$(sed 's-class \(.*\){-\1-g' $< | sed 's/<|--/⇽/' | sed 's/<|../◁┈/' | sed -n '1p' ) class ([text version](./$<), [svg version](./$(basename $<).svg)" \
+#	&& pandoc -F mermaid-filter $(CLA_TEMPLATES)before.md $< $(CLA_TEMPLATES)after.md -o $@ \
+#	&& sed -i 's-\\\[-[-g' $@ && sed -i 's-\\\]-]-g' $@ \
+#	&& sed -i 's-"fig:")--g' $@ \
+#	&& echo -n '"' >> $@ && cat $< >> $@ && echo -n '")' >> $@ \
+#	&& tr '\n' ' ' < $@ > $(notdir $(basename $@))-temp.md && mv $(notdir $(basename $@))-temp.md $@ \
+#	&& sed -i '1 s/./[&/' $@ \
+#	&& echo "](./$(basename $<).svg)" >> $@
+	
+$(CLA_DIR)%.md: $(CLA_DIR)%.txt | $(CLA_DIR)%.svg $(CLA_DIR)%.png
+	echo "![A UML diagram for the $$(sed 's-class \(.*\){-\1-g' $< | sed 's/<|--/⇽/' | sed 's/<|../◁┈/' | sed -n '1p' ) class ([text version](./$(basename $@).txt), [image version](./$(basename $@).png), [svg version](./$(basename $@).svg))]($(notdir $(basename $@)).png){ width=100% }" > $@
+
+$(CLA_DIR)%.svg: $(CLA_DIR)%.txt
 	@echo "Creating $@"
-	@export MERMAID_FILTER_CAPTION="A UML diagram for the $$(sed 's-class \(.*\){-\1-g' $< | sed 's/<|--/⇽/' | sed 's/<|../◁┈/' | sed -n '1p' ) class ([text version](./$<))" \
-	&& pandoc -F mermaid-filter $(CLA_TEMPLATES)before.md $< $(CLA_TEMPLATES)after.md -o $@ \
-	&& sed -i 's-\\\[-[-g' $@ && sed -i 's-\\\]-]-g' $@ \
-	&& sed -i 's-"fig:")--g' $@ \
-	&& echo -n '"' >> $@ && cat $< >> $@ && echo -n '")' >> $@ \
-	&& tr '\n' ' ' < $@ > $(notdir $(basename $@))-temp.md && mv $(notdir $(basename $@))-temp.md $@
+	echo "classDiagram" > $@_tmp \
+	&& cat $< >> $@_tmp \
+	&& mmdc -p .puppeteer.json -i $@_tmp -o $@ \
+	&& rm $@_tmp
+
+$(CLA_DIR)%.png: $(CLA_DIR)%.txt
+	@echo "Creating $@"
+	echo "classDiagram" > $@_tmp \
+	&& cat $< >> $@_tmp \
+	&& mmdc -s 2 -p .puppeteer.json -i  $@_tmp -o $@ \
+	&& rm $@_tmp
 
 # Exercise without solution
-.PHONY: EXE
-EXE: $(TARGET_EXO)
-
 $(EXO_DIR)%.md: $(SOL_DIR)%.md
 	@echo "Creating $@"
 	@mkdir -p $(dir $@) \
@@ -424,6 +448,7 @@ $(BUILD_DIR)$(IMG_DIR)%: $(IMG_DIR)%
 
 # -------------------------------
 # class diagram (txt files only)
+# Why? What makes it copy only txt files?
 # -------------------------------
 
 $(BUILD_DIR)$(CLA_DIR)%: $(CLA_DIR)%
@@ -551,23 +576,23 @@ $(BUILD_DIR)book.docx: $(SOURCE_BOOK)
 
 .PHONY: fetch
 fetch:
-	wget https://github.com/princomp/princomp.github.io/releases/download/latest/release.zip -P ../ && cd ../ && unzip -q release.zip && cd content && rsync -avR $(PROJECT_DIR)**.zip ../source && rsync -avR $(CLA_DIR)**.md ../source && rsync -avR $(EXO_DIR)* ../source || true
+	wget https://github.com/princomp/princomp.github.io/releases/download/latest/release.zip -P ../ && cd ../ && unzip -q release.zip && cd content && rsync -avR $(PROJECT_DIR)**.zip ../source && rsync -avR $(CLA_DIR)**.md ../source && rsync -avR $(CLA_DIR)**.svg ../source && rsync -avR $(CLA_DIR)**.png ../source && rsync -avR $(EXO_DIR)* ../source || true
 
 book: $(BUILD_DIR)book.html $(BUILD_DIR)book.pdf $(BUILD_DIR)book.odt $(BUILD_DIR)book.docx
 
 # Ligter build, to test compilation and website deployment
 build-light: $(BUILD_DIR)web-order.ts $(TARGET_MD_FILES) $(TARGET_WOFF_FONT_FILES) $(TARGET_IMAGES_FILES) $(TARGET_VIDEOS_FILES) $(TARGET_DOC_FILES_WITHOUT_INDEX) $(TARGET_CLA) | PREREQ
 
-build: build-light $(TARGET_PDF_FILES_WITHOUT_INDEX) $(TARGET_ODT_FILES_WITHOUT_INDEX) $(TARGET_PROJECTS_FILES) book
+build: build-light $(TARGET_PDF_FILES_WITHOUT_INDEX) $(TARGET_ODT_FILES_WITHOUT_INDEX) $(TARGET_PROJECTS_FILES) book | PREREQ
 
 $(BUILD_DIR)release.zip: | build
 	7z a $(BUILD_DIR)release.zip $(BUILD_DIR)
 
-all: build $(BUILD_DIR)release.zip
+all: build $(BUILD_DIR)release.zip | PREREQ
 
 # Phony rule to display variables
 # Uncomment the following and replace
-# TARGET_MD_FILES
+# TARGET_CLA
 # with the variable you want listed.
-# test:
-#	$(info $$TARGET_MD_FILES is [${TARGET_MD_FILES}])
+#test:
+#	$(info $$TARGET_CLA is [${TARGET_CLA}])

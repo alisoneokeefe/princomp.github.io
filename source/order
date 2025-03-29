@@ -14,6 +14,7 @@
 ./docs/programming_and_computer_usage/unzipping_archives.md
 ./docs/programming_and_computer_usage/keyboard_shortcuts.md
 ./docs/programming_and_computer_usage/datatypes_in_csharp.md
+./docs/programming_and_computer_usage/uml_class.md
 ./lectures/
 ./lectures/intro/
 ./lectures/intro/computers_and_programming.md
@@ -67,8 +68,19 @@
 ./lecture/slides.md
 ./labs/
 ./exercises/
-./exercises/classes/
-./exercises/classes/references.md
+./exercises/introduction/
+./exercises/introduction/datatypes.md
+./exercises/introduction/strings.md
+./exercises/introduction/numerical.md
+./exercises/introduction/io.md
+./exercises/oop/
+./exercises/oop/properties.md
+./exercises/oop/references.md
+./exercises/oop/inheritance.md
+./exercises/oop/objects.md
+./exercises/oop/oop.md
+./exercises/oop/operations.md
+./exercises/oop/structures.md
 ./exercises/misc/
 ./exercises/misc/exceptions.md
 ./exercises/io/
@@ -76,6 +88,9 @@
 ./exercises/collections/
 ./exercises/collections/1darrays.md
 ./exercises/collections/2darrays.md
+./exercises/control/
+./exercises/control/conditionals.md
+./exercises/control/iteratives.md
 ./exercises/control/recursion.md
 ./projects/
 ./projects/submission.md
@@ -86,4 +101,6 @@
 ./projects/temp_stats/
 ./projects/bookmarker/
 ./projects/evaluation/
+./projects/species/
 ./projects/TextFileHelper/
+./projects/FileDisplayer/
